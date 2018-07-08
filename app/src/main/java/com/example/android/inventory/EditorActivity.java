@@ -61,7 +61,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     /**
-     * Setup the dropdown spinner that allows the user to select the supplier name of the book.
+     * Setup the dropdown spinner that allows the user to select one of the supplier names of the book.
      */
     private void setupSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
