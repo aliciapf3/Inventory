@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- These are the options displayed in the supplier name drop-down Spinner -->
+    <string-array name="array_supplier_name_options">
+        <item>@string/supplier_name_pearson</item>
+        <item>@string/supplier_name_ak</item>
+        <item>@string/supplier_name_howarth_press</item>
+    </string-array>
+</resources>
