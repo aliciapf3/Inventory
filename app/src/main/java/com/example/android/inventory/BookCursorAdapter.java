@@ -1,14 +1,19 @@
 package com.example.android.inventory;
 
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.android.inventory.data.BookContract;
@@ -58,11 +63,13 @@ public class BookCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
         TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+
+        Button saleButton = view.findViewById(R.id.sale_button);
 
         // Find the columns of book attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
@@ -73,6 +80,10 @@ public class BookCursorAdapter extends CursorAdapter {
         String bookName = cursor.getString(nameColumnIndex);
         String bookPrice = cursor.getString(priceColumnIndex);
         String bookQuantity = cursor.getString(quantityColumnIndex);
+
+        final int bookId = cursor.getInt(cursor.getColumnIndex(BookContract.BookEntry._ID));
+        final int bookQuantityValue = cursor.getInt(quantityColumnIndex);
+
 
         // If the book price is empty string or null, then use some default text
         // that says "Unknown price", so the TextView isn't blank.
@@ -91,5 +102,39 @@ public class BookCursorAdapter extends CursorAdapter {
         nameTextView.setText(bookName);
         summaryTextView.setText(bookPrice);
         quantityTextView.setText(bookQuantity);
+
+
+
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bookQuantityValue > 0) {
+                    int productSale = bookQuantityValue - 1;
+
+                    Uri saleUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, bookId);
+
+                    ContentValues values = new ContentValues();
+                    values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, productSale);
+
+                    int rowsAffected = context.getContentResolver().update(saleUri, values, null, null);
+
+                    // Show a toast message depending on whether or not the update was successful.
+                    if (rowsAffected == 0) {
+                        // If no rows were affected, then there was an error with the update.
+                        Toast.makeText(context, context.getString(R.string.sale_failed),
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Otherwise, the update was successful and we can display a toast.
+                        Toast.makeText(context, context.getString(R.string.sale_successful),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, context.getString(R.string.sale_quantity_missing),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
     }
 }

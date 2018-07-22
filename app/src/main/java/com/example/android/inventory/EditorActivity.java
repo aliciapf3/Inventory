@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -52,6 +53,16 @@ public class EditorActivity extends AppCompatActivity implements
 
     /** EditText field to enter the book's supplier name */
     private Spinner mSupplierNameSpinner;
+
+
+    /** Button to increase product's quantity */
+    private Button mIncreaseButton;
+
+    /** Button to decrease product's quantity */
+    private Button mDecreaseButton;
+
+    /** Button to order call supplier intent */
+    private Button mOrderButton;
 
 
 
@@ -112,6 +123,11 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mSupplierNameSpinner = (Spinner) findViewById(R.id.spinner_supplier_name);
 
+        mIncreaseButton = (Button) findViewById(R.id.edit_increase_quantity);
+        mDecreaseButton = (Button) findViewById(R.id.edit_decrease_quantity);
+        mOrderButton = (Button) findViewById(R.id.order_button);
+
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -121,8 +137,75 @@ public class EditorActivity extends AppCompatActivity implements
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
         mSupplierNameSpinner.setOnTouchListener(mTouchListener);
 
-        setupSpinner();
+        mIncreaseButton.setOnTouchListener(mTouchListener);
+        mDecreaseButton.setOnTouchListener(mTouchListener);
+        mOrderButton.setOnTouchListener(mTouchListener);
+
+
+        mIncreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String productQuantity = mQuantityEditText.getText().toString().trim();
+                int increaseQuantityByOne = 1;
+                if (TextUtils.isEmpty(productQuantity)) {
+                    mQuantityEditText.setText(Integer.toString(increaseQuantityByOne));
+                } else {
+                    int productQuantityInt = Integer.parseInt(productQuantity);
+                    int newQuantity = productQuantityInt + increaseQuantityByOne;
+                    mQuantityEditText.setText(Integer.toString(newQuantity));
+                }
+            }
+        });
+
+
+        mDecreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String productQuantity = mQuantityEditText.getText().toString().trim();
+                int decreaseQuantityByOne = 1;
+                if (TextUtils.isEmpty(productQuantity)) {
+                    mQuantityEditText.setText(Integer.toString(0));
+                } else {
+                    int productQuantityInt = Integer.parseInt(productQuantity);
+                    if (productQuantityInt > 0) {
+                        int newQuantity = productQuantityInt - decreaseQuantityByOne;
+                        mQuantityEditText.setText(Integer.toString(newQuantity));
+                    } else {
+                        Toast.makeText(EditorActivity.this, getString(R.string.no_negative_quantity),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
+
+        mOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phoneNumber = mSupplierPhoneEditText.getText().toString().trim();
+                if (TextUtils.isEmpty(phoneNumber)) {
+                    Toast.makeText(EditorActivity.this, getString(R.string.missing_supplier_phone),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent orderIntent = new Intent(Intent.ACTION_DIAL);
+                    orderIntent.setData(Uri.parse("tel:" + phoneNumber));
+                    if (orderIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(orderIntent);
+                    }
+                }
+            }
+        });
+
+
+
+    setupSpinner();
+
     }
+
+
+
+
 
     /**
      * Setup the dropdown spinner that allows the user to select the supplier name of the book.

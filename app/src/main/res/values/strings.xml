@@ -117,5 +117,26 @@
     <!-- Label for the book quantity if the quantity is unknown [CHAR LIMIT=20] -->
     <string name="unknown_quantity">Unknown quantity</string>
 
+    <!-- Name for the sale button [CHAR LIMIT=12] -->
+    <string name="sale_button">Sale</string>
+
+    <!-- Name for the call supplier button [CHAR LIMIT=12] -->
+    <string name="order_supplier">Order</string>
+
+    <!-- Message when the user input a negative quantity [CHAR LIMIT=12] -->
+    <string name="no_negative_quantity">Negative values are not allowed for quantity</string>
+
+    <!-- Message when the  supplier phone is missing [CHAR LIMIT=12] -->
+    <string name="missing_supplier_phone">Supplier phone number is missing</string>
+
+    <!-- Message when the sale is done correctly [CHAR LIMIT=12] -->
+    <string name="sale_successful">Product sold</string>
+
+    <!-- Message when the sale fails [CHAR LIMIT=12] -->
+    <string name="sale_failed">Error with sale product</string>
+
+    <!-- Message when the user forget to input a quantity [CHAR LIMIT=12] -->
+    <string name="sale_quantity_missing">Check quantity</string>
+
 
 </resources>

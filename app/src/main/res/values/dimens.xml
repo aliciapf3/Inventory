@@ -6,4 +6,8 @@
 
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
+
+    <!-- Common margin value used throughout the app between views in layout-->
+    <dimen name="quantity_button_margin">8dp</dimen>
+
 </resources>

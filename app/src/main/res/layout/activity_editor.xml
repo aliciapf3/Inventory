@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- Layout for the editor -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,6 +49,33 @@
                 android:hint="@string/hint_book_quantity"
                 android:inputType="number"
                 style="@style/EditorFieldStyle"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/quantity_button_margin"
+                android:layout_marginTop="@dimen/quantity_button_margin"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/edit_increase_quantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="+"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/edit_decrease_quantity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
 
@@ -109,5 +137,12 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/order_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/order_supplier" />
+
 
 </LinearLayout>
