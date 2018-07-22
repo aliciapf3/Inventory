@@ -64,6 +64,10 @@ public class EditorActivity extends AppCompatActivity implements
     /** Button to order call supplier intent */
     private Button mOrderButton;
 
+    /** Boolean used if the addition of a new book has errors (null values) */
+    public boolean mAddErrors;
+
+
 
 
     /**
@@ -203,10 +207,6 @@ public class EditorActivity extends AppCompatActivity implements
 
     }
 
-
-
-
-
     /**
      * Setup the dropdown spinner that allows the user to select the supplier name of the book.
      */
@@ -260,12 +260,41 @@ public class EditorActivity extends AppCompatActivity implements
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
         if (mCurrentBookUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceInt) && TextUtils.isEmpty(quantityInt) &&
-                TextUtils.isEmpty(supplierPhoneString) && mSupplierName == BookEntry.SUPPLIER_NAME_PEARSON) {
+                TextUtils.isEmpty(nameString) ||
+                TextUtils.isEmpty(priceInt) ||
+                TextUtils.isEmpty(quantityInt) ||
+                TextUtils.isEmpty(supplierPhoneString) || mSupplierName == BookEntry.SUPPLIER_NAME_PEARSON) {
             // Since no fields were modified, we can return early without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+
+
+            mAddErrors = true;
+
+            String mAddErrorsMessage = "";
+
+            if (TextUtils.isEmpty(nameString)) {
+                mAddErrorsMessage += getString(R.string.name_missing) + "\n";
+            }
+
+            if (TextUtils.isEmpty(priceInt)) {
+                mAddErrorsMessage += getString(R.string.price_missing) + "\n";
+            }
+
+            if (TextUtils.isEmpty(quantityInt)) {
+                mAddErrorsMessage += getString(R.string.quantity_missing) + "\n";
+            }
+
+            if (TextUtils.isEmpty(supplierPhoneString)) {
+                mAddErrorsMessage += getString(R.string.supplier_phone_missing) + "\n";
+            }
+
+            Toast.makeText(this, mAddErrorsMessage, Toast.LENGTH_LONG).show();
+        } else {
+            mAddErrors = false;
+
         }
+
+
 
         // Create a ContentValues object where column names are the keys,
         // and book attributes from the editor are the values.
@@ -312,6 +341,8 @@ public class EditorActivity extends AppCompatActivity implements
             }
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

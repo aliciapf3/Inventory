@@ -8,7 +8,6 @@
     <!-- Label for overflow menu option that deletes all book data in the app [CHAR LIMIT=20] -->
     <string name="action_delete_all_entries">Delete All Books</string>
 
-
     <!-- Title text for the empty view, which describes the empty shelf image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">No books yet...</string>
 
@@ -16,12 +15,11 @@
     <string name="empty_view_subtitle_text">Get started by adding a book</string>
 
 
-
     <!-- Title for the activity to add a new book [CHAR LIMIT=20] -->
     <string name="editor_activity_title_new_book">Add a Book</string>
 
     <!-- Title for the activity to edit an existing book [CHAR LIMIT=20] -->
-    <string name="editor_activity_title_edit_book">Edit Pet</string>
+    <string name="editor_activity_title_edit_book">Edit Book</string>
 
 
     <!-- Label for editor menu option to save book and leave editor [CHAR LIMIT=20] -->
@@ -29,8 +27,6 @@
 
     <!-- Label for editor overflow menu option that deletes the current book [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
-
-
 
     <!-- Toast message in editor when new book has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_book_successful">Book saved</string>
@@ -62,9 +58,6 @@
     <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
     <string name="delete_dialog_msg">Delete this book?</string>
 
-
-
-
     <!-- Label for product name category of attributes in the editor [CHAR LIMIT=30] -->
     <string name="category_product_name">Book</string>
 
@@ -86,7 +79,6 @@
 
     <!-- Dialog button text for the option to cancel deletion of the current book [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
-
 
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
@@ -137,6 +129,18 @@
 
     <!-- Message when the user forget to input a quantity [CHAR LIMIT=12] -->
     <string name="sale_quantity_missing">Check quantity</string>
+
+    <!-- Message when the user try to add a new book and the name is missing [CHAR LIMIT=12] -->
+    <string name="name_missing">Product name is missing</string>
+
+    <!-- Message when the user try to add a new book and the quantity is missing [CHAR LIMIT=12] -->
+    <string name="quantity_missing">Product quantity is missing</string>
+
+    <!-- Message when the user try to add a new book and the price is missing [CHAR LIMIT=12] -->
+    <string name="price_missing">Product price is missing</string>
+
+    <!-- Message when the user try to add a new book and the supplier phone is missing [CHAR LIMIT=12] -->
+    <string name="supplier_phone_missing">Supplier phone number is missing</string>
 
 
 </resources>

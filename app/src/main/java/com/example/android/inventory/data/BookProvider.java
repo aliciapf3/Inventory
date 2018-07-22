@@ -167,7 +167,6 @@ public class BookProvider extends ContentProvider {
         }
 
 
-
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
