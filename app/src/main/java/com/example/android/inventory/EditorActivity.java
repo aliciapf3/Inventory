@@ -68,8 +68,6 @@ public class EditorActivity extends AppCompatActivity implements
     public boolean mAddErrors;
 
 
-
-
     /**
      * Supplier name of the book. The possible valid values are in the BookContract.java file:
      * {@link BookEntry#SUPPLIER_NAME_PEARSON}, {@link BookEntry#SUPPLIER_NAME_AK}, or
@@ -289,59 +287,59 @@ public class EditorActivity extends AppCompatActivity implements
             }
 
             Toast.makeText(this, mAddErrorsMessage, Toast.LENGTH_LONG).show();
+
         } else {
             mAddErrors = false;
 
+
+            // Create a ContentValues object where column names are the keys,
+            // and book attributes from the editor are the values.
+            ContentValues values = new ContentValues();
+            values.put(BookEntry.COLUMN_BOOK_NAME, nameString);
+            values.put(BookEntry.COLUMN_BOOK_PRICE, priceInt);
+            values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantityInt);
+            values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, mSupplierName);
+            values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
+
+
+            // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
+            if (mCurrentBookUri == null) {
+                // This is a NEW book, so insert a new book into the provider,
+                // returning the content URI for the new book.
+                Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+
+                // Show a toast message depending on whether or not the insertion was successful.
+                if (newUri == null) {
+                    // If the new content URI is null, then there was an error with insertion.
+                    Toast.makeText(this, getString(R.string.editor_insert_book_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the insertion was successful and we can display a toast.
+                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Otherwise this is an EXISTING book, so update the book with content URI: mCurrentBookUri
+                // and pass in the new ContentValues. Pass in null for the selection and selection args
+                // because mCurrentBookUri will already identify the correct row in the database that
+                // we want to modify.
+                int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
+
+                // Show a toast message depending on whether or not the update was successful.
+                if (rowsAffected == 0) {
+                    // If no rows were affected, then there was an error with the update.
+                    Toast.makeText(this, getString(R.string.editor_update_book_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the update was successful and we can display a toast.
+                    Toast.makeText(this, getString(R.string.editor_update_book_successful),
+                            Toast.LENGTH_SHORT).show();
+
+                }
+            }
         }
 
-
-
-        // Create a ContentValues object where column names are the keys,
-        // and book attributes from the editor are the values.
-        ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_BOOK_NAME, nameString);
-        values.put(BookEntry.COLUMN_BOOK_PRICE, priceInt);
-        values.put(BookEntry.COLUMN_BOOK_QUANTITY, quantityInt);
-        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, mSupplierName);
-        values.put(BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
-
-
-        // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
-        if (mCurrentBookUri == null) {
-            // This is a NEW book, so insert a new book into the provider,
-            // returning the content URI for the new book.
-            Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
-
-            // Show a toast message depending on whether or not the insertion was successful.
-            if (newUri == null) {
-                // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, getString(R.string.editor_insert_book_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            // Otherwise this is an EXISTING book, so update the book with content URI: mCurrentBookUri
-            // and pass in the new ContentValues. Pass in null for the selection and selection args
-            // because mCurrentBookUri will already identify the correct row in the database that
-            // we want to modify.
-            int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
-
-            // Show a toast message depending on whether or not the update was successful.
-            if (rowsAffected == 0) {
-                // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, getString(R.string.editor_update_book_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_update_book_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
     }
-
 
 
     @Override
